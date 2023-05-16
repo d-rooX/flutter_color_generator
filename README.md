@@ -12,6 +12,6 @@ You can switch them using swipe as soon as just clicking desired tab
 
 ## Screenshots
 
-[screenshot1](screenshots/sc1.png)
+![screenshot1](screenshots/sc1.png)
 
-[screenshot2](screenshots/sc2.png)
+![screenshot2](screenshots/sc2.png)
