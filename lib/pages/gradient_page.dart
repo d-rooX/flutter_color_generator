@@ -1,18 +1,23 @@
 import 'package:color_generator/common.dart';
 import 'package:flutter/material.dart';
 
+/// list of Alignment objects that used in gradient's beginAlignment
 final List<Alignment> topAlignments = [
   Alignment.topLeft,
   Alignment.topCenter,
   Alignment.topRight,
 ];
+
+/// list of Alignment objects that used in gradient's endAlignment
 final List<Alignment> bottomAlignments = [
   Alignment.bottomLeft,
   Alignment.bottomCenter,
   Alignment.bottomRight,
 ];
 
+/// Page displaying gradient on background that changes after tap
 class GradientPage extends StatefulWidget {
+  ///
   const GradientPage({Key? key}) : super(key: key);
 
   @override
@@ -22,19 +27,19 @@ class GradientPage extends StatefulWidget {
 class _GradientPageState extends State<GradientPage> {
   List<Color> backgroundColors = [];
 
-  final int colorsCount = 2; // can be modified to add more colors to gradient
-  late Alignment beginAlignment;
-  late Alignment endAlignment;
+  final int colorsCount = 2; // can be modified to use colors in gradient
+  Alignment beginAlignment = Alignment.topLeft;
+  Alignment endAlignment = Alignment.bottomRight;
 
   @override
   void initState() {
     super.initState();
-    refreshBackgroundGradient();
+    setBackgroundGradient();
   }
 
-  // randomize colors and alignment in gradient
-  void refreshBackgroundGradient() {
-    List<Color> newBackgroundColors = [];
+  /// randomize colors and alignment in gradient
+  void setBackgroundGradient() {
+    final List<Color> newBackgroundColors = [];
     for (int i = 0; i < colorsCount; i++) {
       newBackgroundColors.add(generateNewColor());
     }
@@ -42,28 +47,27 @@ class _GradientPageState extends State<GradientPage> {
     topAlignments.shuffle();
     bottomAlignments.shuffle();
 
-    setState(() {
-      beginAlignment = topAlignments.first;
-      endAlignment = bottomAlignments.first;
-      backgroundColors = newBackgroundColors;
-    });
+    beginAlignment = topAlignments.first;
+    endAlignment = bottomAlignments.first;
+    backgroundColors = newBackgroundColors;
   }
 
-  // get a string that represents all colors in gradient
+  /// get a string that represents all colors in gradient
   String getGradientHex() {
-    List<String> hexList = [];
-    for (Color color in backgroundColors) {
+    final List<String> hexList = [];
+    for (final Color color in backgroundColors) {
       hexList.add("#${getColorHex(color)}");
     }
+
     return hexList.join('\n');
   }
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = getTextColor(backgroundColors.first);
+    final Color textColor = getTextColor(backgroundColors.first);
 
     return GestureDetector(
-      onTap: refreshBackgroundGradient,
+      onTap: () => setState(setBackgroundGradient),
       child: AnimatedContainer(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -81,7 +85,7 @@ class _GradientPageState extends State<GradientPage> {
               "Hello there again!",
               style: TextStyle(
                 color: textColor,
-                fontSize: 25,
+                fontSize: kMainTextSize,
               ),
             ),
             const SizedBox(height: 25),
@@ -89,7 +93,7 @@ class _GradientPageState extends State<GradientPage> {
               getGradientHex(),
               style: TextStyle(
                 color: textColor,
-                fontSize: 20,
+                fontSize: kHexTextSize,
               ),
             ),
           ],

@@ -1,4 +1,5 @@
-# color_generator
+# color_generator  
+[![style: solid](https://img.shields.io/badge/style-solid-orange)](https://pub.dev/packages/solid_lints)
 
 Simple color generator.
 

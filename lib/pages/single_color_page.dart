@@ -1,8 +1,9 @@
+import 'package:color_generator/common.dart';
 import 'package:flutter/material.dart';
 
-import '../common.dart';
-
+/// Page that shows exactly one color on a whole screen
 class SingleColorPage extends StatefulWidget {
+  ///
   const SingleColorPage({Key? key}) : super(key: key);
 
   @override
@@ -10,23 +11,20 @@ class SingleColorPage extends StatefulWidget {
 }
 
 class _SingleColorPageState extends State<SingleColorPage> {
-  late Color backgroundColor;
+  Color backgroundColor = Colors.white;
 
   @override
   void initState() {
     super.initState();
-    refreshBackgroundColor();
+    backgroundColor = generateNewColor();
   }
-
-  void refreshBackgroundColor() =>
-      setState(() => backgroundColor = generateNewColor());
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = getTextColor(backgroundColor);
+    final Color textColor = getTextColor(backgroundColor);
 
     return GestureDetector(
-      onTap: refreshBackgroundColor,
+      onTap: () => setState(() => backgroundColor = generateNewColor()),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         color: backgroundColor,
@@ -35,12 +33,12 @@ class _SingleColorPageState extends State<SingleColorPage> {
           children: [
             Text(
               "Hello there!",
-              style: TextStyle(color: textColor, fontSize: 25),
+              style: TextStyle(color: textColor, fontSize: kMainTextSize),
             ),
             const SizedBox(height: 25),
             Text(
               "#${getColorHex(backgroundColor)}",
-              style: TextStyle(color: textColor, fontSize: 20),
+              style: TextStyle(color: textColor, fontSize: kHexTextSize),
             )
           ],
         ),
